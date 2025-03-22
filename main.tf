@@ -17,11 +17,10 @@ resource "aws_ami_copy" "firstserverinstance" {
   name              = "terraform-1"
   source_ami_id     = "ami-04b7f73ef0b798a0f"
   source_ami_region = "us-east-1"
-  key_name          = "Bhavik-KeyPair"
 
 
   tags = {
-    Name = "FirstServer"
+    Name = "First_server"
   }
 }
 
