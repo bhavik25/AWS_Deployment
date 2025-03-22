@@ -5,3 +5,8 @@ variable "aws_region" {
   
 }
 
+variable "aws_vpc" {
+    description = "AWS cidr"
+    type = string
+    default = "10.0.0.0/16"
+}
