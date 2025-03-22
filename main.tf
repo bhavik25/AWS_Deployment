@@ -89,10 +89,35 @@ resource "aws_instance" "FirstServer" {
   key_name      = "Bhavik-KeyPair" 
   subnet_id     = aws_subnet.Terraform_Subnet_public.id
   associate_public_ip_address = true
+  vpc_security_group_ids = [aws_security_group.allow_ssh.id]  # Attach Security Group
   
   
   tags = {
     Name = "FirstServer"
+  }
+}
+
+
+# Security Group to allow SSH access
+resource "aws_security_group" "allow_ssh" {
+  vpc_id = aws_vpc.Terraform_VPC.id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # Allows SSH from anywhere (use a specific IP for better security)
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "Allow SSH"
   }
 }
 
