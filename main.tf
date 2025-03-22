@@ -20,7 +20,7 @@ resource "aws_internet_gateway" "igw" {
 # Create a Public Subnet
 resource "aws_subnet" "Terraform_Subnet_public" {
   vpc_id                  = aws_vpc.Terraform_VPC.id
-  cidr_block              = "10.0.1.0/24"
+  cidr_block              = var.public_subnet_cidr
   map_public_ip_on_launch = true  # Enables public IP assignment
 
   tags = {
@@ -68,18 +68,18 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
-resource "aws_instance" "FirstServer" {
+resource "aws_instance" "Terraform-Server" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
+  instance_type = var.instance_type
  #key_name      = aws_key_pair.Bhavik_key.public_key
-  key_name      = "Bhavik-KeyPair" 
+  key_name      = var.key_pair_name
   subnet_id     = aws_subnet.Terraform_Subnet_public.id
   associate_public_ip_address = true
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]  # Attach Security Group
   
   
   tags = {
-    Name = "FirstServer"
+    Name = "AWS Instance created by Terraform"
   }
 }
 
