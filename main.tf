@@ -34,7 +34,7 @@ resource "aws_instance" "FirstServer" {
   instance_type = "t2.micro"
  # key_name     = aws_key_pair.Bhavik_key.public_key
   key_name      = "Bhavik-KeyPair" 
-  vpc_security_group_ids = "vpc-5896e825"
+  subnet_id     = aws_subnet.Terraform_Subnet.id
   
   tags = {
     Name = "FirstServer"
@@ -56,6 +56,20 @@ resource "aws_instance" "FirstServer" {
 
 
 # Create a VPC
-resource "aws_vpc" "example" {
+resource "aws_vpc" "Terraform_VPC" {
   cidr_block = "10.0.0.0/16"
+
+  tags = {
+    Name = "created by terraform"
+  }
+}
+
+# Create a AWS Subnet
+resource "aws_subnet" "Terraform_Subnet" {
+  vpc_id            = aws_vpc.example.id
+  cidr_block        = "10.0.10.0/24"
+
+  tags = {
+    Name = "created by terraform"
+  }
 }
