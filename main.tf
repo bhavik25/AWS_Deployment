@@ -21,15 +21,49 @@ resource "aws_vpc" "Terraform_VPC" {
   }
 }
 
-# Create a AWS Subnet
-resource "aws_subnet" "Terraform_Subnet" {
-  vpc_id            = aws_vpc.Terraform_VPC.id
-  cidr_block        = "10.0.10.0/24"
+
+# Create an Internet Gateway
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.Terraform_VPC.id
 
   tags = {
-    Name = "created by terraform"
+    Name = "Terraform IGW"
   }
 }
+
+# Create a Public Subnet
+resource "aws_subnet" "Terraform_Subnet_public" {
+  vpc_id                  = aws_vpc.Terraform_VPC.id
+  cidr_block              = "10.0.1.0/24"
+  map_public_ip_on_launch = true  # Enables public IP assignment
+
+  tags = {
+    Name = "Terraform-PublicSubnet"
+  }
+}
+
+# Create a Route Table for Public Subnet
+resource "aws_route_table" "terraform_public_rt" {
+  vpc_id = aws_vpc.Terraform_VPC.id
+
+  tags = {
+    Name = "Terraform-PublicRouteTable"
+  }
+}
+
+# Create a Route to Allow Internet Access
+resource "aws_route" "default_route" {
+  route_table_id         = aws_route_table.terraform_public_rt.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.igw.id
+}
+
+# Associate Route Table with Public Subnet
+resource "aws_route_table_association" "public_assoc" {
+  subnet_id      = aws_subnet.Terraform_Subnet_public.id
+  route_table_id = aws_route_table.terraform_public_rt.id
+}
+
 
 # Create a EC2 Instance
 data "aws_ami" "ubuntu" {
