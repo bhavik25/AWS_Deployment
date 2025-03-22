@@ -34,6 +34,7 @@ resource "aws_instance" "FirstServer" {
   instance_type = "t2.micro"
  # key_name     = aws_key_pair.Bhavik_key.public_key
   key_name      = "Bhavik-KeyPair" 
+  vpc_security_group_ids = "vpc-5896e825"
   
   tags = {
     Name = "FirstServer"
