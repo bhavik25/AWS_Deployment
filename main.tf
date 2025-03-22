@@ -13,16 +13,31 @@ provider "aws" {
 }
 
 # Create a EC2 Instance
-resource "aws_ami_copy" "firstserverinstance" {
-  name              = "terraform-1"
-  source_ami_id     = "ami-04b7f73ef0b798a0f"
-  source_ami_region = "us-east-1"
+data "aws_ami" "ubuntu" {
+  most_recent = true
 
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  owners = ["099720109477"] # Canonical
+}
+
+resource "aws_instance" "FirstServer" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t2.micro"
 
   tags = {
-    Name = "First_server"
+    Name = "FirstServer"
   }
 }
+
 
 # Create a VPC
 resource "aws_vpc" "example" {
