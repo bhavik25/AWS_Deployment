@@ -87,7 +87,7 @@ resource "aws_instance" "FirstServer" {
   instance_type = "t2.micro"
  #key_name      = aws_key_pair.Bhavik_key.public_key
   key_name      = "Bhavik-KeyPair" 
-  subnet_id     = aws_subnet.Terraform_Subnet.id
+  subnet_id     = aws_subnet.Terraform_Subnet_public.id
   associate_public_ip_address = true
   
   
