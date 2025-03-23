@@ -54,6 +54,7 @@ module "ec2_instance" {
   key_name          = "Bhavik-KeyPair"
   instance_name     = "dev-web-server"
   environment       = "dev"
+  security_group_id = module.security_group.security_group_id
 }
 
 output "ec2_public_ip" {
