@@ -19,7 +19,7 @@ module "subnet" {
 }
 
 module "security_group" {
-  source      = "AWS_Deployment/modules/security_group"
+  source      = "../../modules/security_group"
   vpc_id      = module.vpc.vpc_id
   sg_name     = "dev-ec2"
   sg_description = "Security group for EC2 instance in dev environment"
@@ -46,7 +46,7 @@ module "security_group" {
 }
 
 module "ec2_instance" {
-  source            = "AWS_Deployment/modules/ec2"
+  source            = "../../modules/ec2"
   region            = "us-east-1"
   instance_type     = "t2.micro"
   subnet_id         = module.subnet.public_subnet_ids[0]
