@@ -3,13 +3,13 @@ provider "aws" {
 }
 
 module "vpc" {
-  source    = "./modules/vpc"
+  source    = "AWS_Deployment/modules/vpc"
   vpc_cidr  = "10.0.0.0/16"
   vpc_name  = "dev-vpc"
 }
 
 module "subnet" {
-  source              = "./modules/subnet"
+  source              = "AWS_Deployment/modules/subnet"
   vpc_id              = module.vpc.vpc_id
   igw_id              = module.vpc.igw_id
   public_subnet_cidrs  = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
@@ -19,7 +19,7 @@ module "subnet" {
 }
 
 module "security_group" {
-  source      = "./modules/security_group"
+  source      = "AWS_Deployment/modules/security_group"
   vpc_id      = module.vpc.vpc_id
   sg_name     = "dev-ec2"
   sg_description = "Security group for EC2 instance in dev environment"
@@ -46,7 +46,7 @@ module "security_group" {
 }
 
 module "ec2_instance" {
-  source            = "./modules/ec2"
+  source            = "AWS_Deployment/modules/ec2"
   region            = "us-east-1"
   instance_type     = "t2.micro"
   subnet_id         = module.subnet.public_subnet_ids[0]
