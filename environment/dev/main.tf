@@ -51,8 +51,7 @@ module "ec2_instance" {
   instance_type     = "t2.micro"
   subnet_id         = module.subnet.public_subnet_ids[0]
   vpc_id            = module.vpc.vpc_id
-  security_group_id = module.security_group.security_group_id
-  key_name          = "my-key-pair"
+  key_name          = "Bhavik-KeyPair"
   instance_name     = "dev-web-server"
   environment       = "dev"
 }
