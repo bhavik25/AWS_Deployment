@@ -3,13 +3,13 @@ provider "aws" {
 }
 
 module "vpc" {
-  source    = "AWS_DEPLOYMENT/modules/vpc"
+  source    = "../../modules/vpc"
   vpc_cidr  = "10.0.0.0/16"
   vpc_name  = "dev-vpc"
 }
 
 module "subnet" {
-  source              = "AWS_Deployment/modules/subnet"
+  source              = "../../modules/subnet"
   vpc_id              = module.vpc.vpc_id
   igw_id              = module.vpc.igw_id
   public_subnet_cidrs  = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
