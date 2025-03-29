@@ -62,7 +62,7 @@ module "security_group" {
   ]
 }
 
-module "ec2_instance"{
+module "ec2_instance_1"{
   source            = "../../modules/ec2"
   region            = "us-east-1"
   instance_type     = "t2.micro"
@@ -90,7 +90,7 @@ module "ec2_instance"{
                       EOF
 }
 
-module "ec2_instance"{
+module "ec2_instance_2"{
   source            = "../../modules/ec2"
   region            = "us-east-1"
   instance_type     = "t2.micro"
