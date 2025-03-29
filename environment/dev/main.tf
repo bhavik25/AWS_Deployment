@@ -31,6 +31,14 @@ module "security_group" {
       protocol    = "tcp"
       cidr_blocks = ["0.0.0.0/0"]
       description = "SSH access"
+    },
+      # New rule for Grafana (port 3000)
+    {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]  # You can restrict this to specific IPs for security
+    description = "Grafana access"
     }
   ]
 
