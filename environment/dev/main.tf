@@ -62,7 +62,7 @@ module "security_group" {
   ]
 }
 
-module "ec2_instance_1"{
+module "ec2_instance"{
   source            = "../../modules/ec2"
   region            = "us-east-1"
   instance_type     = "t2.micro"
@@ -89,38 +89,10 @@ module "ec2_instance_1"{
                       echo "Script ran" > /var/log/user_data.log
                       EOF
 }
-module "ec2_instance_2"{
-  source            = "../../modules/ec2"
-  region            = "us-east-1"
-  instance_type     = "t2.micro"
-  subnet_id         = module.subnet.public_subnet_ids[0]
-  vpc_id            = module.vpc.vpc_id
-  key_name          = "Bhavik-KeyPair"
-  instance_name     = "ansible-server"
-  environment       = "dev"
-  security_group_id = module.security_group.security_group_id
-  user_data         = <<-EOF
-                      #!/bin/bash
-                      sudo apt-get update -y
-                      sudo apt-get install -y software-properties-common
-                      sudo add-apt-repository ppa:ansible/ansible -y
-                      sudo apt-get update -y
-                      sudo apt-get install -y ansible
-                      ansible --version
-                      echo "[local]" > ~/inventory
-                      echo "localhost ansible_connection=local" >> ~/inventory
-                      echo -e "---\n- name: Test Ansible Setup\n  hosts: local\n  tasks:\n    - name: Ping localhost\n      ping:" > ~/test-playbook.yml
-                      ansible-playbook -i ~/inventory ~/test-playbook.yml
-                      echo "Ansible server script run" > /var/log/user_data.log
-                      EOF
-}
 
-output "ec2_public_ip_1" {
+
+output "ec2_public_ip" {
   value = module.ec2_instance_1.public_ip
-}
-
-output "ec2_public_ip_2" {
-  value = module.ec2_instance_2.public_ip
 }
 
 
