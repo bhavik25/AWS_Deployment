@@ -115,11 +115,11 @@ module "ec2_instance_2"{
                       EOF
 }
 
-output "ec2_public_ip" {
+output "ec2_public_ip_1" {
   value = module.ec2_instance_1.public_ip
 }
 
-output "ec2_public_ip" {
+output "ec2_public_ip_2" {
   value = module.ec2_instance_2.public_ip
 }
 
