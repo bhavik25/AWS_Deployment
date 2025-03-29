@@ -46,3 +46,8 @@ variable "environment" {
   type        = string
   default     = "dev"
 }
+
+variable "user_data" {
+  description = "Server configuration information"
+  type        = string
+}
