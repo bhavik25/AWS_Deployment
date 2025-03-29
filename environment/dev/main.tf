@@ -63,7 +63,7 @@ module "ec2_instance" {
   instance_name     = "grafana-server"
   environment       = "dev"
   security_group_id = module.security_group.security_group_id
-  user_data = <<-EOF
+  user_data = <<EOF
               #!/bin/bash
               # Update the system
               apt-get update -y
