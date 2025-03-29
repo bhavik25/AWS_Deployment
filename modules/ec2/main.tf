@@ -28,5 +28,6 @@ resource "aws_instance" "ec2" {
   tags = {
     Name = var.instance_name
     Env  = var.environment
+    ReplaceMe  = timestamp()
   }
 }
