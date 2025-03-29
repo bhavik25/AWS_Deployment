@@ -72,22 +72,22 @@ module "ec2_instance" {
   instance_name     = "grafana-server"
   environment       = "dev"
   security_group_id = module.security_group.security_group_id
-  user_data = <<EOF
-                #!/bin/bash
-                apt-get update -y
-                apt-get install -y software-properties-common
-                add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
-                apt-get install -y apt-transport-https
-                curl https://packages.grafana.com/gpg.key | sudo apt-key add -
-                apt-get update -y
-                apt-get install -y grafana
-                systemctl enable grafana-server
-                systemctl start grafana-server
-                ufw allow 3000/tcp
-                ufw reload
-                systemctl enable grafana-server
-                echo "Script ran" > /var/log/user_data.log
-                EOF
+  user_data = <<-EOF
+              #!/bin/bash
+              apt-get update -y
+              apt-get install -y software-properties-common
+              add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
+              apt-get install -y apt-transport-https
+              curl https://packages.grafana.com/gpg.key | sudo apt-key add -
+              apt-get update -y
+              apt-get install -y grafana
+              systemctl enable grafana-server
+              systemctl start grafana-server
+              ufw allow 3000/tcp
+              ufw reload
+              systemctl enable grafana-server
+              echo "Script ran" > /var/log/user_data.log
+              EOF
 }
 
 output "ec2_public_ip" {
